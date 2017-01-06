@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#header {
+  height: 85px;
+  width: 100%;
+  top: 0px;
+}
+
+p.logo {
+  font-size: 50px;
+  height: 59px;
+  margin: 0px 0 0 30px;
+}
+
+.logo span {
+  animation: cycle1 10s linear infinite;
+}
+
+.logo a {
+  color: white;
+  font-size: 40px;
+  animation: cycle 10s linear infinite;
+}
+
+@keyframes cycle {
+  0% {
+    color: #F0F0C9;
+  } 50% {
+    color: #124E78;
+  } 60% {
+    color: #F2BB05;
+  } 100% {
+    color: #F0F0C9;
+  }
+}
+
+@keyframes cycle1 {
+  0% {
+    color: #F2BB05;
+  } 40% {
+    color: #F0F0C9;
+  } 90% {
+    color: #124E78;
+  } 100% {
+    color: #F2BB05;
+  }
+}
+
+button {
+  padding: 15px 20px;
+  border: 0;
+  border-radius: 5px;
+}
+
+button.highlight {
+  background-color: #c62828;
+  color: white;
+}
