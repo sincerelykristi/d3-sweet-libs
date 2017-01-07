@@ -1,4 +1,4 @@
-# d3-sweet-libs
+# D3.js and Data Visualization
 
 ##Getting Started with D3!
 
@@ -41,6 +41,50 @@ What? Ok, let's break down that line of code.
 ```.attr()``` Lastly, we added two attributes to the SVG. The .attr method needs two values: the attribute to be changed and the value you'd like to change it to. On the first .attr method we called we wanted to change the width to 50 so we passed that into the paranthesis like so: ```("width", 50)```. To do the same for height we just added another .attr method, this time passing in height and 50. 
 
 Adding multiple methods is known as *chaining* and it can get pretty unweildy in D3 since often you use many methods at once. To clean up your code you can return to a new line for every new method. We'll demonstrate that later in longer code examples.  
+
+## Data! Binding! Oh my!
+
+Now lets start using Data to create elements. (for this I'm going to follow an example given in the PluralSight tutorial, if you want some further info from that tutorial, it's listed in the Recommended Resources)
+
+Let's assume we are given an array of numbers and want to represent those numbers with rectangles that are created dynamically to be sized proptionally to each other based on their array number. In other words, you want to make a bar graph. 
+
+Our array:
+```javascript
+var cookies = [5, 10, 15, 20, 25]
+```
+*This array is called cookies just because I like cookies. There's no y axis so we're not sure what this is in reference to but just go with it. We have groups of 5, 10, 15, 20 and 25 cookies*
+
+First, let's start by creating our SVG container. This time, I'll make it easier to reference by setting a var for it. 
+
+```javascript
+var svg = d3.select("body")
+  .append("svg")
+  .attr("width", 300)
+  .attr("height", 100);
+```
+*this code coule live all on one line but to make your code more organized, the convention is to return to a new line after each method.*
+
+If you don't know what's happening here just jump to the above section for more detail. Basically, we are creating an SVG element in the body of our HTML document. Our SVG is 300px wide and 100px in height.
+
+Now to work some D3 magic to create a rectangle for each element in our cookies array.
+
+```javascript
+svg.selectAll("rect")
+   .data(cookies)
+   .enter()
+   .append("rect")
+     .attr("x", function(d, i) {
+        return (i * (300 / cookies.length));
+     })
+     .attr("y", function(d) {
+        return h - (d * 4);
+     })
+        .attr("width", 300 / cookies.length - 2)
+        .attr("height", function(d) {
+            return (d*4);
+        });
+```
+
 
 
 
