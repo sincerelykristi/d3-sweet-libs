@@ -14,8 +14,7 @@ Much like JQuery you link D3 in your the head of your index.html either by downl
 <script src="https://d3js.org/d3.v4.min.js"></script>
 ```
 
-You can write your D3 code directly in your HTML files if you wish, just between ```html <script> </script> 
-``` 
+You can write your D3 code directly in your HTML files if you wish, just between ```<script></script>```
 tags or separately in your script.js or other javascript files.  
 
 ## What is SVG?
