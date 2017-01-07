@@ -22,7 +22,7 @@ tags or separately in your script.js or other javascript files.
 
 SVG stands for Scalable Vector Graphics
 
-![Raster vs Vector]("Raster+vs.png")
+![Raster vs Vector](Raster+vs.png)
 
 
 
