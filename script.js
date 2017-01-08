@@ -1,21 +1,171 @@
-$(document).ready(function(){
-  console.log('JavaScript loaded.')
 
-  var Mulder=[{unit:1, fun:7.4}, {unit:2, fun:6.7}, {unit:3, fun:5}, {unit:4, fun:4.1}]
-  var Skully=[{unit:1, fun:7.5}, {unit:2, fun:7.3}, {unit:3, fun:6}, {unit:4, fun:5.5}]
-  var Mufasa=[{unit:1, fun:7.7}, {unit:2, fun:7.3}, {unit:3, fun:5.7}, {unit:4, fun:4.9}]
-  var Scar=[{unit:1, fun:6.8}, {unit:2, fun:6.3}, {unit:3, fun:5.5}, {unit:4, fun:5.3}]
-  var TenDays=[{unit:1, fun:7.9}, {unit:2, fun:7.8}, {unit:3, fun:6.4}, {unit:4, fun:5.3}]
-  var WedPlan=[{unit:1, fun:6.9}, {unit:2, fun:6.1}, {unit:3, fun:4.6}, {unit:4, fun:4.6}]
-  var nsync=[{unit:1, fun:7.6}, {unit:2, fun:7.6}, {unit:3, fun:5.6}, {unit:4, fun:4.4}]
-  var bsb=[{unit:1, fun:7}, {unit:2, fun:5.6}, {unit:3, fun:5.6}, {unit:4, fun:6.8}]
-  var leo=[{unit:1, fun:7.5}, {unit:2, fun:7.1}, {unit:3, fun:5.6}, {unit:4, fun:5}]
+//for some reason, jquery has been breaking everything... so vanilla JS is back in black😎
+// $(document).ready(function(){
+console.log('script loaded')
 
-  $('button').on('click', function() {
-    $('button').removeClass('highlight')
-    $(this).toggleClass('highlight');
+function InitChart() {
 
-    // D3 click chart action goes here
+var data_section = [{
+ "line": "mulder", unit:1, fun:7.4}, {"line": "mulder", unit:2, fun:6.7}, {"line": "mulder", unit:3, fun:5}, {"line": "mulder", unit:4, fun:4.1}, {"line": "skully", unit:1, fun:7.5}, {"line": "skully", unit:2, fun:7.3}, {"line": "skully", unit:3, fun:6}, {"line": "skully", unit:4, fun:5.5}];
 
+var sectionGroup = d3.nest()
+    .key(function(d) {return d.line;})
+    .entries(data_section);
+
+    console.log(JSON.stringify(sectionGroup[1]));
+
+var data_lion = [{
+  "line":"mufasa", unit:1, fun:7.7}, {"line":"mufasa", unit:2, fun:7.3}, {"line":"mufasa", unit:3, fun:5.7}, {"line":"mufasa", unit:4, fun:4.9}, {"line":"scar", unit:1, fun:6.8}, {"line":"scar", unit:2, fun:6.3}, {"line":"scar", unit:3, fun:5.5}, {"line":"scar", unit:4, fun:5.3}];
+
+var lionGroup = d3.nest()
+    .key(function(d) {return d.line;})
+    .entries(data_lion);
+
+var data_matt=[{"line":"tenDays", unit:1, fun:7.9}, {"line":"tenDays", unit:2, fun:7.8}, {"line":"tenDays", unit:3, fun:6.4}, {"line":"tenDays", unit:4, fun:5.3}, {"line":"wedPlan", unit:1, fun:6.9}, {"line":"wedPlan", unit:2, fun:6.1}, {"line":"wedPlan", unit:3, fun:4.6}, {"line":"wedPlan", unit:4, fun:4.6}];
+
+var mattGroup = d3.nest()
+    .key(function(d) {return d.line;})
+    .entries(data_matt);
+
+var data_band=[{"line":"nsync", unit:1, fun:7.6}, {"line":"nsync", unit:2, fun:7.6}, {"line":"nsync", unit:3, fun:5.6}, {"line":"nsync", unit:4, fun:4.4}, {"line":"bsb", unit:1, fun:7}, {"line":"bsb", unit:2, fun:5.6}, {"line":"bsb", unit:3, fun:5.6}, {"line":"bsb", unit:4, fun:6.8}]
+
+var bandGroup = d3.nest()
+    .key(function(d) {return d.line;})
+    .entries(data_band);
+
+var data_leo=[{unit:1, fun:7.5}, {unit:2, fun:7.1}, {unit:3, fun:5.6}, {unit:4, fun:5}]
+
+var leoGroup = d3.nest()
+    .key(function(d) {return d.line;})
+    .entries(data_leo);
+
+var sec = d3.select("#section"),
+    WIDTH = 900,
+    HEIGHT = 500,
+    MARGINS = {
+        top: 30,
+        right: 20,
+        bottom: 30,
+        left: 20
+  };
+
+var all = [sectionGroup, lionGroup, mattGroup, bandGroup, leoGroup];
+console.log(all[0]);
+
+//defining space below x axis based on data.length in order to make legends display
+lSpace = WIDTH/sectionGroup.length;
+
+//scaling x & y axis to match Fun 1-10 scale y-axis and Units 1-4 x-axis
+  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([1, 4])
+
+  yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 10])
+
+//customizing ticks
+  xAxis = d3.svg.axis()
+  .scale(xScale)
+  .ticks(2)
+  .tickFormat(function(d){
+    return d
+  })
+  .tickSize(4, 4)
+  .ticks(3),
+
+  yAxis = d3.svg.axis()
+  .scale(yScale)
+  .orient("left")
+  .ticks(2)
+  .tickFormat(function(d){
+    return d;
+  })
+  .tickSize(1, 2)
+  .ticks(5);
+
+//appending x and y axis
+  sec.append("svg:g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+      .call(xAxis);
+  sec.append("svg:g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+      .call(yAxis);
+
+// making lineGen variable (in order to call later with corresponding object)
+  var lineGen = d3.svg.line()
+      .x(function(d) {
+          return xScale(d.unit);
+      })
+      .y(function(d) {
+          return yScale(d.fun);
+      })
+      .interpolate("basis");
+//dynamically adding sectionGroup object (scully/ mulder linels) - I tried for the life of me to hook up the buttons and add labels to the lines but I'm out of ideas for tonight.  Now all that happens is the d.key will append to the legend. I thought it might be a good idea to have each matching data set lumped together, so the onclick function would be easier - but my mind is not working anymore!
+sectionGroup.forEach(function(d, i) {
+  sec.append('svg:path')
+      .attr('d', lineGen(d.values))
+      .attr('stroke', function(d, j) {
+         return "hsl(" + Math.random() * 360 + ",100%,50%)";
+        })
+        .attr('stroke-width', 2)
+        .attr('id', 'line_' + d.key)
+        .attr('fill', 'none');
+// this is the fucking line i can't seem to grab the data endpoint to correctly match the line label
+        sec.append("text")
+          .attr("transform", "translate(" + (WIDTH+3) + "," + yScale(sectionGroup[1]) + ")")
+          .attr("dy", "3.55em")
+          .style("fill", "black")
+          .attr("class","legend")
+          .attr("text-anchor", "start")
+          .on('click',function(){
+              var active   = d.active ? false : true;
+              var opacity = active ? 0 : 1;
+              d3.select("#line_" + d.key).style("opacity", opacity);
+
+              d.active = active;
+          })
+          .text(d.key);
   });
-})
+
+  sec.append("text")
+      .attr("transform", "translate(850, 465)")
+      .style("text-anchor", "middle")
+      .text("WDI Unit");
+  sec.append("text")
+      .attr("transform", "translate(50, -36)")
+      .attr("text-anchor", "end")
+      .attr("y", 6)
+      .attr("dy", "3.85em")
+      .text("Fun");
+//another sad attempt at adding the line labels dynamically
+//   var labels = [
+//   {
+//     x: 0,
+//     y: .17,
+//     text: 'Test Label 1',
+//     orient: 'right'
+//   },
+//   {
+//     x: 0,
+//     y: .24,
+//     text: 'Test Label 2',
+//     orient: 'right'
+//   }
+// ]
+//   function renderLabels() {
+//   sec.selectAll("text.label")
+//     .sectionGroup(labels)
+//     .enter()
+//     .append('text')
+//     .attr('x', function(d) { return x(d.x) })
+//     .attr('y', function(d) { return y(d.y) })
+//     .style('text-anchor', function(d) { return d.orient == 'right' ? 'start' : 'end' })
+//     .text(function(d) { return d.key });
+// }
+
+// renderLabels();
+// });
+}
+InitChart();
+
+
+

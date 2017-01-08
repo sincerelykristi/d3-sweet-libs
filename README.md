@@ -1,3 +1,4 @@
+
 # D3.js and Data Visualization
 
 ##Getting Started with D3!
@@ -96,3 +97,4 @@ Scott Murray's D3 tutorials
 
 PluralSight's D3.js Data Visualization Fundamentals
 <https://www.pluralsight.com/courses/d3js-data-visualization-fundamentals>
+

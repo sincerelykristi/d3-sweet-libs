@@ -55,7 +55,19 @@ button {
   border-radius: 5px;
 }
 
-button.highlight {
+button:hover {
   background-color: #c62828;
   color: white;
 }
+
+/* chart styles */
+.axis path {
+    fill: none;
+    stroke: #777;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: Lato;
+    font-size: 13px;
+}
+
