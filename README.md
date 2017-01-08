@@ -78,7 +78,7 @@ svg.selectAll("rect")
         return (i * (300 / cookies.length));
      })
      .attr("y", function(d) {
-        return h - (d * 4);
+        return 100 - (d * 4);
      })
         .attr("width", 300 / cookies.length - 2)
         .attr("height", function(d) {
@@ -113,17 +113,50 @@ This method is like you right now. It's screaming "THERE ARE NO RECT ELEMENTS!" 
 
 Finally! This method will look familiar if you've used javascript to append elements to the DOM before. This line of code with the previous code says, "For each value in our array, append a rect element to the SVG element."
 
-###
-     .attr("x", function(d, i) {
-        return (i * (300 / cookies.length));
-     })
+###A note about coordinates in D3 before we move on###
+Remember that SVG element we created as our first step with a 300 width and 100 height? How do we tell our new elements where to live in that SVG? The answer is coordinates. 
+
+![D3 coordinates](./d3coord.png)
+
+The SVG coordinates work similarly to mathematical graphs you may have seen in a math or science class except that the 0,0 coordinates are on the top left and the Y axis grows from the top to the bottom.
+
+The SVG we created had the width of 300 and the height of 100. This means that our x axis, or the top horizontal line has a value range of 0 - 300. The far left is 0 and the far right is 300. Our height is 100 so the y axis, or left vertical line has a value range of 0 - 100.
+
+![X and Y coordinates](./xycoord.png)
+
+In entering coordinates, we start with the x axis value and then the y axis. So in our SVG, if we wanted to put something right in the middle, we'd enter the coordinates (150, 50).
+
+Now back to dissecting our code!
+
+```javascript
+.attr("x", function(d, i) {
+    return (i * (300 / cookies.length));
+})
+```
+Now that we've created our rect elements, we have to tell them where they should be placed on our SVG with coordinates. Here we are using the ```.attr()``` method, passing it "x" to let it know that we'd like to set the x axis. The next value could be just a numerical value but we want these elements to be next to eachother so we use a javascript function ```function(d, i)``` Since we are already in touch with our array through the previous ```.data(cookies)``` method, this function is looping through our array and each element is d. We are also passing i which stands for the index of each element in our array. Then we continue on with our function, ```return (i * (300/ cookies.length));``` i is our indexes from the cookies array, so on the first loop of this function the index will be 0, the next 1 and on until we reach the last element and an index of 4. Next we divide 300 (or the width of our svg element by the length of the array (5)) If we multiply i by the result of 300/cookies.length and assign that to our x coordinate, we will get the values to place each rect element evenly spaced out across the x access.
+
+```javascript 
      .attr("y", function(d) {
-        return h - (d * 4);
+        return 100 - (d * 4);
      })
-        .attr("width", 300 / cookies.length - 2)
-        .attr("height", function(d) {
-            return (d * 4);
-        });
+```
+This is much like the last line we looked at. We are using the ```.attr()``` method to set the y axis of our rect element with a function to dynamically place each element according to the data we're passing in. To get the value for y, ```return h - (d * 4)``` Since our 0,0 coordinates are at the top left, if we just assigned out y axis to d*4 our rects would be at the top of our SVG and our bar graph upside down. 
+
+![upsidedown](./upsidedown.png)
+
+If that's how you want the information to appear, great! but to get the value so that our rect elements sit at the bottom of our SVG simply subtract our height (100) from the value of our array element as it loops.
+
+```javascript
+.attr("width", 300 / cookies.length - 2)
+.attr("height", function(d) {
+    return (d * 4);
+});
+```
+Now you pretty much understand what is happening here but let's review anyway. The ```.attr()``` is used to set the attributes for our rect elements we are appending to the DOM. Right now are elements have no structure to them so we need to set the width and height. Like the previous step, we do this dynamically with our data info and set the width value to be the width of the svg divided by the number of elements in our array. This lets us fill up our svg with our elements. If I were to remove a value from our array, the 4 remaining rect's would widen to fit the space alotted. If I left it like this, the 5 rect elements would be touching with no space between them. To add padding, we simply subtract 2 and now each element is still event placed but with a 2px space between each.
+
+That's it! This is just a taste of what you can do with D3 but as you can see this can be very powerful. With this little example, we wrote code that created elements based on our data and changed if that data were different. The size of and placement of those elements was also dictated by the data values as well!
+
+In this example we just hard coded our data in but you could also use outside data from a CSV file, TSV file or an HTTP request.
 
 
 
