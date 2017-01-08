@@ -63,7 +63,7 @@ var svg = d3.select("body")
   .attr("width", 300)
   .attr("height", 100);
 ```
-*this code coule live all on one line but to make your code more organized, the convention is to return to a new line after each method.*
+*this code could have lived all on one line but to make your code more organized, the convention is to return to a new line after each method.*
 
 If you don't know what's happening here just jump to the above section for more detail. Basically, we are creating an SVG element in the body of our HTML document. Our SVG is 300px wide and 100px in height.
 
@@ -82,10 +82,46 @@ svg.selectAll("rect")
      })
         .attr("width", 300 / cookies.length - 2)
         .attr("height", function(d) {
-            return (d*4);
+            return (d * 4);
         });
 ```
+This code would give you a bar graph that looks similar to the below! Look! 5 rectangles (for each number in our array) sized according to that number's value. Let's break down each line here. 
 
+```javascript
+svg.selectAll("rect")
+```
+
+Rememeber we set our svg to the variable 'svg' so this line of code is saying select all of the rect elements in our svg element. "But wait!" you say, "There are no rect elements in our svg element is there? We didn't put any there." You are correct! But further down in this method chain, this line will be important. Let's keep going...
+
+```javascript 
+.data(cookies)
+```
+
+Now this is interesting. We are using the ```.data``` method here to *bind* our data to DOM elements. The data method, is saying ```selection.data``` because it's asking data to latch on to the elements we selected with the previous method: rect elements. "But there are no rect elements" I know! But we're getting there! For now our code says, "Select all rect elements in our svg element and bind the data that is in our cookies array and bind that data to the rect elements."
+
+```javascript
+.enter()
+```
+
+This method is like you right now. It's screaming "THERE ARE NO RECT ELEMENTS!" It's looking at the DOM looking for the rect elements we asked for and looks at the data we passed in (the cookies array in this example). If there are more values in our data than rect elements, then it creates a phony phantom element or *placeholder element* for us to use later. ```.enter``` is a part of binding the data to DOM elements from the previous method and important when using D3.
+
+```javascript
+.append("rect")
+```
+
+Finally! This method will look familiar if you've used javascript to append elements to the DOM before. This line of code with the previous code says, "For each value in our array, append a rect element to the SVG element."
+
+###
+     .attr("x", function(d, i) {
+        return (i * (300 / cookies.length));
+     })
+     .attr("y", function(d) {
+        return h - (d * 4);
+     })
+        .attr("width", 300 / cookies.length - 2)
+        .attr("height", function(d) {
+            return (d * 4);
+        });
 
 
 
