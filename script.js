@@ -1,3 +1,4 @@
+
 //for some reason, jquery has been breaking everything... so vanilla JS is back in black😎
 // $(document).ready(function(){
 console.log('script loaded')
@@ -165,3 +166,6 @@ sectionGroup.forEach(function(d, i) {
 // });
 }
 InitChart();
+
+
+
