@@ -87,6 +87,8 @@ svg.selectAll("rect")
 ```
 This code would give you a bar graph that looks similar to the below! Look! 5 rectangles (for each number in our array) sized according to that number's value. Let's break down each line here. 
 
+![Bar Graph!](./bargraph.png)
+
 ```javascript
 svg.selectAll("rect")
 ```
