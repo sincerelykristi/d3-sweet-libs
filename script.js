@@ -1,3 +1,4 @@
+
 console.log('script loaded')
 
 function InitChart() {
@@ -9,21 +10,7 @@ var sectionGroup = d3.nest()
     .key(function(d) {return d.line;})
     .entries(data_section);
 
-console.log(JSON.stringify(sectionGroup[0]));
-
-function getValues(obj, key) {
-    var objects = [];
-    for (var i in obj) {
-        if (!obj.hasOwnProperty(i)) continue;
-        if (typeof obj[i] == 'object') {
-            objects = objects.concat(getValues(obj[i], key));
-        } else if (i == key) {
-            objects.push(obj[i]);
-        }
-    }
-    return objects;
-}
-console.log(getValues(data_section,'line'));
+    // console.log(JSON.stringify(sectionGroup[0]));
 
 function getObjects(obj, key, val) {
     var objects = [];
@@ -124,40 +111,23 @@ sectionGroup.forEach(function(d, i) {
         .attr('stroke-width', 2)
         .attr('id', 'line_' + d.key)
         .attr('fill', 'none');
-        // console.log(d.keys)
 
 // this is the fucking line i can't seem to grab the data endpoint to correctly match the line label - trying to dynamically set label to u4 fun value
         sec.append("text")
-            .attr("x", (lSpace/2)+i*lSpace)
-            .attr("y", HEIGHT)
-            .style("fill", "black")
-            .attr("class","legend")
-            .on('click',function(){
-                var active   = d.active ? false : true;
-                var opacity = active ? 0 : 1;
-                d3.select("#line_" + d.key).style("opacity", opacity);
-                d.active = active;
-            })
-            .text(d.key);
-    });
- // var tip = d3.tip()
- //          .attr("class", "tip-map")
- //          .html(function(d){
- //            var tooltip = "<div>";
- //            tooltip += "<h4>" +
- //          })
- //          .attr("class","legend")
- //          .attr("text-anchor", "start")
- //          .on('click',function(){
- //              var active   = d.active ? false : true;
- //              var opacity = active ? 0 : 1;
- //              d3.select("#line_" + d.key).style("opacity", opacity);
+          .attr("x", (lSpace/2)+i*lSpace)
+          .attr("y", HEIGHT)
+          .style("fill", "black")
+          .attr("class","legend")
+          .attr("text-anchor", "start")
+          .on('click',function(){
+              var active   = d.active ? false : true;
+              var opacity = active ? 0 : 1;
+              d3.select("#line_" + d.key).style("opacity", opacity);
 
- //              d.active = active;
- //          })
- //          .text(d.key);
-  // });
- //  console.log($("body"));
+              d.active = active;
+          })
+          .text(d.key);
+  });
 
   sec.append("text")
       .attr("transform", "translate(850, 465)")
