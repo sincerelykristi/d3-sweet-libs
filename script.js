@@ -76,7 +76,7 @@ lSpace = WIDTH/sectionGroup.length;
   yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 10])
 
 //customizing ticks
-  xAxis = d3.svg.axis()
+  xAxis = d3.svg.axisBottom()
   .scale(xScale)
   .ticks(2)
   .tickFormat(function(d){
@@ -85,7 +85,7 @@ lSpace = WIDTH/sectionGroup.length;
   .tickSize(4, 4)
   .ticks(3),
 
-  yAxis = d3.svg.axis()
+  yAxis = d3.svg.axisLeft()
   .scale(yScale)
   .orient("left")
   .ticks(2)
