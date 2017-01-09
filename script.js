@@ -11,6 +11,19 @@ var sectionGroup = d3.nest()
     .entries(data_section);
 
     // console.log(JSON.stringify(sectionGroup[0]));
+function getValues(obj, key) {
+    var objects = [];
+    for (var i in obj) {
+        if (!obj.hasOwnProperty(i)) continue;
+        if (typeof obj[i] == 'object') {
+            objects = objects.concat(getValues(obj[i], key));
+        } else if (i == key) {
+            objects.push(obj[i]);
+        }
+    }
+    return objects;
+}
+console.log(getValues(data_section,'line'));
 
 function getObjects(obj, key, val) {
     var objects = [];
@@ -127,7 +140,53 @@ sectionGroup.forEach(function(d, i) {
               d.active = active;
           })
           .text(d.key);
+          // trying this tool tip d3 method to have key on the side
+           // var tip = d3.tip()
+ //          .attr("class", "tip-map")
+ //          .html(function(d){
+ //            var tooltip = "<div>";
+ //            tooltip += "<h4>" +
+ //          })
+ //          .attr("class","legend")
+ //          .attr("text-anchor", "start")
+ //          .on('click',function(){
+ //              var active   = d.active ? false : true;
+ //              var opacity = active ? 0 : 1;
+ //              d3.select("#line_" + d.key).style("opacity", opacity);
+
+ //              d.active = active;
+ //          })
+ //          .text(d.key);
   });
+
+//another sad attempt at adding the line labels dynamically
+//   var labels = [
+//   {
+//     x: 0,
+//     y: .17,
+//     text: 'Test Label 1',
+//     orient: 'right'
+//   },
+//   {
+//     x: 0,
+//     y: .24,
+//     text: 'Test Label 2',
+//     orient: 'right'
+//   }
+// ]
+//   function renderLabels() {
+//   sec.selectAll("text.label")
+//     .sectionGroup(labels)
+//     .enter()
+//     .append('text')
+//     .attr('x', function(d) { return x(d.x) })
+//     .attr('y', function(d) { return y(d.y) })
+//     .style('text-anchor', function(d) { return d.orient == 'right' ? 'start' : 'end' })
+//     .text(function(d) { return d.key });
+// }
+
+// renderLabels();
+// });
 
   sec.append("text")
       .attr("transform", "translate(850, 465)")
