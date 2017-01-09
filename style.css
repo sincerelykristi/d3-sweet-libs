@@ -71,3 +71,16 @@ button:hover {
     font-size: 13px;
 }
 
+#wdi-legend {
+  float: right;
+}
+#lion-legend {
+  float: right;
+}
+#matt-legend {
+  float: right;
+}
+#boyBand-legend {
+  float: right;
+}
+
