@@ -1,6 +1,5 @@
 console.log('script loaded')
-// skully x=860 y=238
-// mulde
+
 function InitChart() {
 
 var data_wdi = [{
