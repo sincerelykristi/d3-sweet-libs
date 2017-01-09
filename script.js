@@ -58,12 +58,12 @@ var sec = d3.select("#section"),
 // lSpace = WIDTH/sectionGroup.length;
 
 //scaling x & y axis to match Fun 1-10 scale y-axis and Units 1-4 x-axis
-  xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([1, 4])
+  xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([1, 4])
 
-  yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 10])
+  yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 10])
 
 //customizing ticks
-  xAxis = d3.axisBottom()
+  xAxis = d3.svg.axis()
   .scale(xScale)
   .ticks(2)
   .tickFormat(function(d){
@@ -72,7 +72,7 @@ var sec = d3.select("#section"),
   .tickSize(4, 4)
   .ticks(3),
 
-  yAxis = d3.axisLeft()
+  yAxis = d3.svg.axis()
   .scale(yScale)
   .orient("left")
   .ticks(2)
